@@ -21,4 +21,12 @@ Things you may want to cover:
 
 * Deployment instructions
 
-* ...
+* Install Shopify App Gem
+
+* Include .env File
+
+* Add Your TWILIO Credential for SMS Servie
+
+* Add Your SMTP Credential for Mail Service 
+
+* Happy CODING.......!
