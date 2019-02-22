@@ -1,0 +1,34 @@
+<% content_for :javascript do %>
+  <script type="text/javascript">
+    ShopifyApp.ready(function(){
+      ShopifyApp.Bar.initialize({ title: "Info" });
+    });
+  </script>
+<% end %>
+
+<p>About Message Mate Texting Platform
+Message Mate is an elegant widget that makes it easy for customers to text you with one click!
+
+Texting is the best way to scale customer support, cultivate happy customers, & build a highly engaged list
+
+All this without creating an unreasonable and expensive load on your operations like phones or live chat do
+
+What You Get
+Text enable your existing business number, or a new virtual number customers can text
+Texts are forwarded to your helpdesk, email, cellphone, and a web dashboard
+Ultimate convenience. Reply from anywhere by simply texting back. Waste less time on long emails or chats
+Incoming texts can be sent to multiple people or connected to helpdesks such as Zendesk, Desk.com, etc.
+Auto replies for off hours
+Templates for common questions
+There's More
+Follow on review & social requests. Automatically ask happy customers for reviews or FB/IG follows
+IMAGE Support (optional). Contact us and we'll set you up with an image supported number if you need one
+Integration with Facebook Messenger (optional). Reply to Messenger without having to be in FB Messenger/Pages
+Widget’s colors and text are customizable to match your site
+Support from developers who love customer service
+Set up your widget in 37 seconds
+NEW! Text marketing lists. Build a texting list for your VIP customers. We handle legal opt in and out.
+</p>
+<%= button_to "Show All Requests", user_requests_path, :id => "button1",
+      :class => "inbox-sf-add-btn tip", :method => :get %>
+

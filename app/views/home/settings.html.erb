@@ -1,0 +1,109 @@
+<% content_for :javascript do %>
+  <script type="text/javascript">
+    ShopifyApp.ready(function(){
+      ShopifyApp.Bar.initialize({ title: "Settings" });
+    });
+  </script>
+<% end %>
+
+<div class="Polaris-Layout">
+<div class="Polaris-Page Polaris-Card">
+
+      
+<%= form_for @button,:url => :settings_post, :method => :POST do |f| %>
+  <% if @button.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@button.errors.count, "error") %> prohibited Notification Settings from being saved:</h2>
+      <ul>
+      <% @button.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+ 
+<br/>
+
+
+
+  <div class="Polaris-Layout__AnnotationContent">
+             
+            <div class="Polaris-Layout__AnnotatedSection">
+          <div class="Polaris-Layout__AnnotationWrapper">
+            <div class="Polaris-Layout__Annotation">
+              <div class="Polaris-TextContainer">
+                <h2 class="Polaris-Heading">App Configuration</h2>
+                <p>Enter the details for your app</p>
+              </div>
+            </div>
+            <div class="Polaris-Layout__AnnotationContent">
+              <div class="Polaris-Card">
+                <div class="Polaris-Card__Section">
+                  <div class="Polaris-FormLayout">
+                    <div role="group" class="">
+                      <div class="Polaris-FormLayout__Items">
+                        
+                        <div class="Polaris-FormLayout__Item">
+                            
+                            <div class="Polaris-Labelled__LabelWrapper">
+                              <div class="Polaris-Label">
+                              <label id="TextField2Label" for="TextField2" class="Polaris-Label__Text">Button Name</label>
+                              </div>
+                            </div>
+
+                            <div class="Polaris-TextField">
+                            <%= f.text_field :button_name, :class=>'Polaris-TextField__Input', placeholder: "Notify Button name" %>
+                            <div class="Polaris-TextField__Backdrop"></div>
+                            </div>
+                         </div>
+
+                         <div class="Polaris-FormLayout__Item">
+                          
+                            <div class="Polaris-Labelled__LabelWrapper">
+                              <div class="Polaris-Label">
+                              <label id="TextField2Label" for="TextField2" class="Polaris-Label__Text">Notify Message</label>
+                              </div>
+                            </div>
+                            
+                            <div class="Polaris-TextField">
+                            <%= f.text_field :notify_message, :class=>'Polaris-TextField__Input', placeholder: "Notify Message" %>
+                            <div class="Polaris-TextField__Backdrop"></div>
+                            </div>
+                         </div>
+                          <div class="Polaris-FormLayout__Item">
+                          
+                            <div class="Polaris-Labelled__LabelWrapper">
+                              <div class="Polaris-Label">
+                              <label id="TextField2Label" for="TextField3" class="Polaris-Label__Text">Form Title</label>
+                              </div>
+                            </div>
+                            
+                            <div class="Polaris-TextField">
+                            <%= f.text_field :form_title, :class=>'Polaris-TextField__Input', placeholder: "Enter Title" %>
+                            <div class="Polaris-TextField__Backdrop"></div>
+                            </div>
+                         </div>
+                      </div>
+  
+                    </div>
+                    <div class="Polaris-FormLayout__Item">
+                   <%= hidden_field(:button, :shop_id) %>
+                    
+                    <div class="Polaris-SettingAction__Action">
+                    <%= f.submit 'Save Settings', :class => 'Polaris-Button Polaris-Button--primary' %>
+                    </div> 
+                  </div> 
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+<% end %>
+<% end %>
+</div>
+</div>
+
+
+

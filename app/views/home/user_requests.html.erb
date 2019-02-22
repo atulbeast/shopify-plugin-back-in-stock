@@ -1,0 +1,28 @@
+<% content_for :javascript do %>
+  <script type="text/javascript">
+    ShopifyApp.ready(function(){
+      ShopifyApp.Bar.initialize({ title: "Requests" });
+    });
+  </script>
+<% end %>
+
+
+ <table>
+ <tr>
+<th>Email </th>
+<th>Contact </th>
+<th>Variant </th>
+<th>Product Name </th>
+ </tr>
+ <tbody>
+ <% @list.each do |item|%>
+   <tr>
+      <th><%= item.email %></th>     
+      <th><%= item.contact %></th>
+      <th><%= item.variant_id %></th>
+      <th><%= item.product %></th>
+   </tr>
+   <% end %>
+   </tbody>
+</table>
+   

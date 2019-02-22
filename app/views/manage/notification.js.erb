@@ -1,0 +1,136 @@
+
+$(document).ready(function() {
+
+const modalEdtn= {
+  "display": "none", /* Hidden by default */
+  "position": "fixed", /* Stay in place */
+  "z-index": 1, /* Sit on top */
+  "padding-top": "100px", /* Location of the box */
+  "left": 0,
+  "top": 0,
+  "width": "100%", /* Full width */
+  "height": "100%", /* Full height */
+  "overflow": "auto", /* Enable scroll if needed */
+  "background-color": "rgb(0,0,0)", /* Fallback color */
+  "background-color": "rgba(0,0,0,0.4)" /* Black w/ opacity */
+};
+
+const modalContent={
+  "background-color":" #fefefe",
+  margin: "auto",
+  padding: "20px",
+  border: "1px solid #888",
+  width: "30%",
+  "border-radius":"4px"
+};
+
+$("#MainContent").append(
+// Creating Form Div and Adding <h2> and <p> Paragraph Tag in it.
+$("<div/>",{id:'md-modal-back'}).append(
+    $("<div/>",{id:'md-modal-content'}).append(
+        $("<span/>",{class:'close', style:"cursor: pointer;float: right;font-size: 30px;"}).html("&times;"),
+$("<h3/>").text("Notification Form "), $("<p/>").text("We will email you when product is in stock "), $("<div/>", {
+//action: '/myshopapp/saveacc',
+//method: 'POST',
+id:'md-form-comp'
+}).append(
+ // Creating Input Element With Attribute.
+ $('<div/>',{style:"display:inline-block;"}).append(
+$("<input/>", {
+type: 'text',
+id: 'vemail',
+name: 'email',
+placeholder: 'Your Email'
+}),$("<br/>"),
+$("<p/>",{text:"OR/BOTH"}),
+$("<input/>", {
+type: 'text',
+id: 'vphone',
+name: 'phone',
+placeholder: 'Your Phone'
+}),
+  $("<input/>", {
+type: 'button',
+id: 'notifyME',
+value: 'Submit'
+}))))));
+
+
+let modalView = $('#md-modal-back');
+let modalContainer=$('#md-modal-content');
+
+
+//Adding CSS
+modalView.css(modalEdtn);
+modalContainer.css(modalContent);
+
+if($('#AddToCart-product-template').text().trim()=="Sold out"){
+    //$("#MainContent").append('<button/>',{id:"notifyBtn",style:'background-color: #008CBA;padding: 12px 28px;border-radius: 8px;'});
+ $(".product-single__meta").append($('<input/>').attr({ type: 'button',id:"notifyBtn", name:'btn1', value:'NOTIFY ME',style:'background-color: #008CBA;padding: 12px 28px;border-radius: 8px;' }));
+}
+
+// When the user clicks on <span> (x), close the modal
+$(document).on('click','#notifyBtn',function(){
+
+modalView.fadeIn();
+//modalView[0].style.display = "block";
+})
+
+$(document).on('click','.close',function() {
+    modalView.fadeOut();
+    //modalView[0].style.display = "none";
+})
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    
+  if (event.target == modalView[0]) {
+    modalView.fadeOut();
+    //modalView[0].style.display = "none";
+  }
+
+if($('#AddToCart-product-template').text().trim()=="Sold out" && $("#notifyBtn").length==0){
+    $(".product-single__meta").append($('<input/>').attr({ type: 'button',id:"notifyBtn", name:'btn1', value:'NOTIFY ME',style:'background-color: #008CBA;padding: 12px 28px;border-radius: 8px;' }));
+ 
+}
+
+}
+
+$(document).on('click','#notifyME',function() {
+
+let account={email:$("#vemail").val(), contact: $("#vphone").val(),variant_id: getUrlParameter("variant"),product: location.pathname.substring(10) };
+  
+  $.ajax({
+  type: "POST",
+  url: "https://pwa.serveo.net/myshopapp/saveacc?shop="+location.host,
+  data: {account:account},
+  dataType: 'json',
+  //contentType: "application/json",
+  success: function(data){
+  modalView.fadeOut();
+     //$("#resultarea").text(data);
+  },error: function(data){
+modalView.fadeOut();
+  }
+});
+    //modalView[0].style.display = "none";
+})
+
+
+//fetch params value
+var getUrlParameter = function getUrlParameter(sParam) {
+    var sPageURL = window.location.search.substring(1),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+        }
+    }
+};
+
+});
