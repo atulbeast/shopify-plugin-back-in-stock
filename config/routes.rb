@@ -4,7 +4,10 @@ Rails.application.routes.draw do
   post 'myshopapp/saveacc'=> 'manage#saveacc'
   get 'myshopapp/js/notification'=> 'manage#notification'
   get 'user_requests'=> 'home#user_requests'
-  get 'settings'=> 'home#settings'
-  post 'settings_post'=>'home#settings_post'
+  get 'myshopapp/pagesetup'=> 'home#settings'
+  post 'settings_post'=>'manage#settings_post'
+  post 'update' => 'manage#update_record'
+  get 'edit'=> 'home#edit'
+  get 'delete'=> 'home#delete_notification'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

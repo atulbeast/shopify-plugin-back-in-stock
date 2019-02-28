@@ -8,6 +8,7 @@
 <div style="--top-bar-background:#00848e; --top-bar-color:#f9fafb; --top-bar-background-lighter:#1d9ba4;">
 <div class="Polaris-Layout">
 <div class="Polaris-Page Polaris-Card">
+
       
 <%= form_for @button,:url => :settings_post, :method => :POST do |f| %>
   <% if @button.errors.any? %>
@@ -20,22 +21,19 @@
       </ul>
     </div>
   <% end %>
+ 
 <br/>
 
 
 
   <div class="Polaris-Layout__AnnotationContent">
-        <div class="Polaris-Layout__AnnotatedSection">
+             
+            <div class="Polaris-Layout__AnnotatedSection">
           <div class="Polaris-Layout__AnnotationWrapper">
             <div class="Polaris-Layout__Annotation">
               <div class="Polaris-TextContainer">
                 <h2 class="Polaris-Heading">App Configuration</h2>
                 <p>Enter the details for your app</p>
-              </div>
-
-              <div class="Polaris-TextContainer" id="form-template">
-                <h2 class="Polaris-Heading">sdff</h2>
-                
               </div>
             </div>
             <div class="Polaris-Layout__AnnotationContent">
@@ -58,21 +56,9 @@
                             <div class="Polaris-TextField__Backdrop"></div>
                             </div>
                          </div>
-                          
-                          <div class="Polaris-FormLayout__Item">
-                            <div class="Polaris-Labelled__LabelWrapper">
-                              <div class="Polaris-Label">
-                              <label id="TextField2Label" for="TextField2" class="Polaris-Label__Text">Notify Message</label>
-                              </div>
-                            </div>
-                            
-                            <div class="Polaris-TextField">
-                            <%= f.text_field :notify_message, :class=>'Polaris-TextField__Input', placeholder: "Notify Message" %>
-                            <div class="Polaris-TextField__Backdrop"></div>
-                            </div>
-                         </div>
 
-<div class="Polaris-FormLayout__Item">
+
+<div class="next-input-wrapper">
 <div class="Polaris-Labelled__LabelWrapper">
       <div class="Polaris-Label">
       <label id="TextField1Label" for="TextField1" class="Polaris-Label__Text">Text Message</label></div>
@@ -83,7 +69,6 @@
     </div>
 </div>
 
-                         
 <div class="Polaris-FormLayout__Item">
 <div class="Polaris-Labelled__LabelWrapper">
       <div class="Polaris-Label">
@@ -95,6 +80,19 @@
     </div>
 </div>
 
+                         <div class="Polaris-FormLayout__Item">
+                          
+                            <div class="Polaris-Labelled__LabelWrapper">
+                              <div class="Polaris-Label">
+                              <label id="TextField2Label" for="TextField2" class="Polaris-Label__Text">Notify Message</label>
+                              </div>
+                            </div>
+                            
+                            <div class="Polaris-TextField">
+                            <%= f.text_field :notify_message, :class=>'Polaris-TextField__Input', placeholder: "Notify Message" %>
+                            <div class="Polaris-TextField__Backdrop"></div>
+                            </div>
+                         </div>
                           <div class="Polaris-FormLayout__Item">
                           
                             <div class="Polaris-Labelled__LabelWrapper">
@@ -132,42 +130,3 @@
 </div>
 
 
-<% content_for :javascript do %>
-  <script type="text/javascript">
-   $(document).ready(function(){
-     let txt_container= $('.Polaris-TextContainer#form-template');
-     txt_container.hide(); //initially display template is hidden
-
-       let txt_msg = $('#button_text_msg');//sms input
-       let mail_msg=$('#button_mail_msg');//mail input
-       
-    //handling text message
-    txt_msg.on('keyup',function(){
-     sms_template(this.value,"Message Template");
-    });
-
-    txt_msg.on('click',function(){
-     sms_template(txt_msg.val(),"Message Template");
-     txt_container.show();
-    });
-
-  function mail_template(value,temp_name){
-    txt_container.html($('<h3/>',{text:temp_name,class:'Polaris-Heading'}).append($('<h3/>',{text:'Hi ___'}),$('<br/>'), $('<p/>',{text:value}),$('<p/>',{text:'your product ____ is back in stock.'})))) 
-  }
-  function sms_template(value,temp_name){
-    txt_container.html($('<h3/>',{text:temp_name,class:'Polaris-Heading'}).append($('<p/>',{text:value})))
-  }
-  //handling mail message
-    mail_msg.on('keyup',function(){
-     mail_template(this.value,"Mail Template");
-    });
-
-
-    mail_msg.on('click',function(){
-     mail_template(mail_msg.val(),"Mail Template");
-     txt_container.show();
-    });
-   });
-
-  </script>
-<% end %>

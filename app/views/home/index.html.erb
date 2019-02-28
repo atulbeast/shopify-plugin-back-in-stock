@@ -5,7 +5,12 @@
     });
   </script>
 <% end %>
-
+<div style="--top-bar-background:#00848e; --top-bar-color:#f9fafb; --top-bar-background-lighter:#1d9ba4;">
+  <div class="Polaris-Card">
+    <div class="Polaris-Card__Header">
+      <h2 class="Polaris-Heading">Back In Order</h2>
+    </div>
+    <div class="Polaris-Card__Section">
 <p>About Message Mate Texting Platform
 Message Mate is an elegant widget that makes it easy for customers to text you with one click!
 
@@ -29,6 +34,78 @@ Support from developers who love customer service
 Set up your widget in 37 seconds
 NEW! Text marketing lists. Build a texting list for your VIP customers. We handle legal opt in and out.
 </p>
-<%= button_to "Show All Requests", user_requests_path, :id => "button1",
-      :class => "inbox-sf-add-btn tip", :method => :get %>
+
+ <div class="Polaris-Card">
+    <div class="Polaris-Card__Header">
+      <div class="Polaris-Stack Polaris-Stack--alignmentBaseline">
+        <div class="Polaris-Stack__Item Polaris-Stack__Item--fill">
+          <h2 class="Polaris-Heading">Request Graph</h2>
+        </div>
+        <div class="Polaris-Stack__Item">
+          <div class="Polaris-ButtonGroup">
+            <div class="Polaris-ButtonGroup__Item Polaris-ButtonGroup__Item--plain">
+            <%= button_to "Manage Setting", myshopapp_pagesetup_path, :class => "Polaris-Button Polaris-Button--sizeLarge", :method => :get, :params=>{s_domain:@shop_name} %>
+            <%= button_to "Show All Requests", user_requests_path, :class => "Polaris-Button Polaris-Button--sizeLarge", :method => :get, :params=>{s_domain:@shop_name} %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="Polaris-Card__Section" style="width:500px">
+      <div id="chart" style="width: auto; height: 400px;"></div>
+      <div id="chartOne" style="width: auto; height: 400px;"></div>
+      <div id="chartTwo" style="width: auto; height: 400px;"></div>
+
+    </div>
+  </div>
+
+      </div>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<%= javascript_tag do -%>
+  google.charts.load('current', {'packages':['bar']});
+  google.charts.setOnLoadCallback(drawChart);
+
+  function drawChart() {
+    var data = JSON.parse('<%= @total_chart.to_json.html_safe %>');
+    data = [['Year/Month', 'Requests']].concat(data);
+    data = google.visualization.arrayToDataTable(data);
+    var options = {
+      chart: {
+        title: 'Total Requests in Back in Stock APP',
+      }
+    };
+
+    var chart = new google.charts.Bar(document.getElementById('chart'));
+    chart.draw(data, google.charts.Bar.convertOptions(options));
+
+
+     var dataOne = JSON.parse('<%= @shop_chart.to_json.html_safe %>');
+    dataOne = [['Year/Month', 'Requests']].concat(dataOne);
+    dataOne = google.visualization.arrayToDataTable(dataOne);
+   var options = {
+      chart: {
+        title: 'Notification Request In Store For Back IN Stock',
+      }
+    };
+
+    var chartOne = new google.charts.Bar(document.getElementById('chartOne'));
+    chartOne.draw(dataOne, google.charts.Bar.convertOptions(options));
+
+ var dataTwo = JSON.parse('<%= @variant_chart.to_json.html_safe %>');
+    dataTwo = [['Variant', 'Count']].concat(dataTwo);
+    dataTwo = google.visualization.arrayToDataTable(dataTwo);
+   var options = {
+      chart: {
+        title: 'Variant graph',
+      }
+    };
+
+    var chartTwo = new google.charts.Bar(document.getElementById('chartTwo'));
+    chartTwo.draw(dataTwo, google.charts.Bar.convertOptions(options));
+
+
+
+
+  }
+<% end -%>
 

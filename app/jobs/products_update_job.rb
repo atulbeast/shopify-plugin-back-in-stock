@@ -9,15 +9,15 @@ class ProductsUpdateJob < ApplicationJob
           variants.push({id:item["id"],quantity: item["inventory_quantity"] })
         end
      
-        
+        button=Button.find_by(shop_id:shop.id)
         variants.each do |item|
           product_model= shop.accounts.where(variant_id:item[:id], active:true).first
          if (product_model.present? && item[:quantity] > 0)
           if product_model.contact.present?
-            # TwilioTextMessenger.new("Your requested product #{product_model.product} is back in stock",product_model.contact).call
+            TwilioTextMessenger.new("#{button.text_msg} #{product_model.product} is back in stock",product_model.contact).call
           end
           
-          UserMailer.notify(product_model,shop_domain).deliver_now     
+          UserMailer.notify(product_model,button.mail_msg,shop_domain).deliver_now     
           product_model.active=false
           product_model.save
          end

@@ -1,0 +1,104 @@
+
+<% content_for :javascript do %>
+  <script type="text/javascript">
+    ShopifyApp.ready(function(){
+      ShopifyApp.Bar.initialize({ title: "Edit" });
+    });
+  </script>
+<% end %>
+<div style="--top-bar-background:#00848e; --top-bar-color:#f9fafb; --top-bar-background-lighter:#1d9ba4;">
+   <div class="Polaris-Card">
+    <div class="Polaris-Card__Header">
+      <h2 class="Polaris-Heading">Update User Request</h2>
+    </div>
+    <div class="Polaris-Card__Section">
+<%= form_for @account,:url => :update, :method => :POST do |f| %>
+
+    <div class="Polaris-Labelled__LabelWrapper">
+      <div class="Polaris-Label">
+      <label id="TextField1Label" for="TextField1" class="Polaris-Label__Text">Email</label></div>
+    </div>
+    <div class="Polaris-TextField Polaris-TextField--hasValue">
+    <%= f.text_field :email, :class=>'Polaris-TextField__Input', placeholder: "Enter Email" %>
+      <div class="Polaris-TextField__Backdrop"></div>
+    </div>
+
+<div class="next-input-wrapper">
+<div class="Polaris-Labelled__LabelWrapper">
+      <div class="Polaris-Label">
+      <label id="TextField1Label" for="TextField1" class="Polaris-Label__Text">Contact Number</label></div>
+    </div>
+    <div class="Polaris-TextField Polaris-TextField--hasValue">
+    <%= f.text_field :contact, :class=>'Polaris-TextField__Input', placeholder: "Enter Contact Number" %>
+      <div class="Polaris-TextField__Backdrop"></div>
+    </div>
+</div>
+<div class="next-input-wrapper">
+<div class="Polaris-Labelled__LabelWrapper">
+      <div class="Polaris-Label">
+      <label id="TextField1Label" for="TextField1" class="Polaris-Label__Text">Variant Number</label></div>
+    </div>
+    <div class="Polaris-TextField Polaris-TextField--hasValue">
+    <%= f.text_field :variant_id, :class=>'Polaris-TextField__Input', placeholder: "Enter Variant ID" %>
+      <div class="Polaris-TextField__Backdrop"></div>
+    </div>
+</div>
+<div class="next-input-wrapper">
+<div class="Polaris-Labelled__LabelWrapper">
+      <div class="Polaris-Label">
+      <label id="TextField1Label" for="TextField1" class="Polaris-Label__Text">Product Name</label></div>
+    </div>
+    <div class="Polaris-TextField Polaris-TextField--hasValue">
+    <%= f.text_field :product, :class=>'Polaris-TextField__Input', placeholder: "Enter Product Name" %>
+    <div class="Polaris-TextField__Backdrop"></div>
+    </div>
+</div>
+<div class="next-input-wrapper">
+<div class="Polaris-Labelled__LabelWrapper">
+      <div class="Polaris-Label">
+      <label id="TextField1Label" for="TextField1" class="Polaris-Label__Text">Notification Setting</label></div>
+    </div>
+     <div class="Polaris-Stack Polaris-Stack--vertical">
+         <div class="Polaris-Stack__Item">
+          <label class="Polaris-Choice" >
+          <span class="Polaris-Choice__Control"><span class="Polaris-RadioButton">
+              <%= f.radio_button :active, "0", {:class=>'Polaris-RadioButton__Input',checked: @account.active} %>
+              <span class="Polaris-RadioButton__Backdrop"></span>
+              <span class="Polaris-RadioButton__Icon"></span>
+              </span>
+              </span>
+
+              <span class="Polaris-Choice__Label">Deactivate registered Notification service </span>
+          </label>
+         </div>
+         <div class="Polaris-Stack__Item">
+          <label class="Polaris-Choice" >
+          <span class="Polaris-Choice__Control"><span class="Polaris-RadioButton">
+              <%= f.radio_button :active, "1", {:class=>'Polaris-RadioButton__Input',checked: @account.active} %>
+              <span class="Polaris-RadioButton__Backdrop"></span>
+              <span class="Polaris-RadioButton__Icon"></span>
+              </span>
+              </span>
+              <span class="Polaris-Choice__Label">Activate registered Notification service </span>
+          </label>
+         </div>
+        </div>
+    
+    </div>
+</div>
+
+
+</div>
+
+<%= f.hidden_field :id %>
+<%= f.hidden_field :shop_id %>
+<div class="Polaris-SettingAction__Action">
+<%= f.submit 'Update', :class => 'Polaris-Button Polaris-Button--primary' %>
+</div>
+
+<% end %>
+  </div>
+  </div>
+</div>  
+
+

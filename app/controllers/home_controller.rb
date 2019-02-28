@@ -1,9 +1,13 @@
 require './lib/url_api.rb'
 class HomeController < ShopifyApp::AuthenticatedController
+  
   def index
-    shop_name=session[:shopify_domain]
-    shop_obj=Shop.find_by_shopify_domain(shop_name) 
+    @shop_name=session[:shopify_domain]
+    shop_obj=Shop.find_by_shopify_domain(@shop_name) 
     if shop_obj.present?
+      @total_chart = Account.totals_by_year_month
+      @shop_chart = Account.shop_by_year_month(shop_obj.id)
+      @variant_chart=Account.variant_by_year_month(shop_obj.id)
       unless shop_obj.install
         url_obj=UrlApi.new(shop_obj.shopify_domain)
         url_obj.add_script(shop_obj.shopify_token)
@@ -15,7 +19,7 @@ class HomeController < ShopifyApp::AuthenticatedController
 
 
   def settings
-    shop_name=session[:shopify_domain]
+    shop_name=params[:s_domain]
     shop_obj=Shop.find_by_shopify_domain(shop_name) 
     if shop_obj.present?
       if shop_obj.button.present?
@@ -25,25 +29,25 @@ class HomeController < ShopifyApp::AuthenticatedController
         @button.shop_id=shop_obj.id
       end
     end
+    
   end
 
-  def settings_post
-    if button_params[:shop_id].present?
-       shop_obj= Shop.find_by_id(button_params[:shop_id])
-       @shop_name=shop_obj.shopify_domain
-       record= Button.find_by(shop_id: icon_params[:shop_id])
-     if record.present?
-         record.update(icon_params)
-     else
-       record=Icon.new(icon_params)
-       record.save
-     end
-    end
-    redirect_to action: 'index', shop: @shop_name
+ 
+
+  def delete_notification
+        account=Account.find(params[:id])
+        account.destroy
+        render 'index'
   end
+
+  def edit
+     @account= Account.find(params[:id])
+  end
+
+  
 
   def  user_requests
-    shop_name=session[:shopify_domain]
+    shop_name=session[:s_domain]
     shop=Shop.find_by_shopify_domain(shop_name)
     @list=[]
     if(shop.present?)
@@ -52,6 +56,11 @@ class HomeController < ShopifyApp::AuthenticatedController
 
   end
 
-
-
+private 
+def account_params
+  params.require(:account).permit(:email, :contact,  :variant_id, :product,:shop_id,:id,:active)
+end 
+def button_params
+  params.require(:button).permit(:id, :button_name,:notify_message,:form_title,:shop_id, :mail_msg,:text_msg)
+end
 end

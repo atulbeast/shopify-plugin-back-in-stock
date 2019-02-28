@@ -31,3 +31,6 @@
 
 en:
   hello: "Hello world"
+  bname: Notify Me
+  emailstock: We will email you when product is in stock
+  rsuccess: Request registered successfully

@@ -29,13 +29,13 @@ $("#MainContent").append(
 $("<div/>",{id:'md-modal-back'}).append(
     $("<div/>",{id:'md-modal-content'}).append(
         $("<span/>",{class:'close', style:"cursor: pointer;float: right;font-size: 30px;"}).html("&times;"),
-$("<h3/>").text("Notification Form "), $("<p/>").text("We will email you when product is in stock "), $("<div/>", {
+$("<h3/>").text("<%= @form_title %>"), $("<p/>").text("We will email you when product is in stock"), $("<div/>", {
 //action: '/myshopapp/saveacc',
 //method: 'POST',
 id:'md-form-comp'
 }).append(
  // Creating Input Element With Attribute.
- $('<div/>',{style:"display:inline-block;"}).append(
+ $('<div/>',{style:"display:inline-block;",class:"section__header"}).append(
 $("<input/>", {
 type: 'text',
 id: 'vemail',
@@ -43,6 +43,7 @@ name: 'email',
 placeholder: 'Your Email'
 }),$("<br/>"),
 $("<p/>",{text:"OR/BOTH"}),
+$("<br/>"),
 $("<input/>", {
 type: 'text',
 id: 'vphone',
@@ -66,7 +67,7 @@ modalContainer.css(modalContent);
 
 if($('#AddToCart-product-template').text().trim()=="Sold out"){
     //$("#MainContent").append('<button/>',{id:"notifyBtn",style:'background-color: #008CBA;padding: 12px 28px;border-radius: 8px;'});
- $(".product-single__meta").append($('<input/>').attr({ type: 'button',id:"notifyBtn", name:'btn1', value:'NOTIFY ME',style:'background-color: #008CBA;padding: 12px 28px;border-radius: 8px;' }));
+ $(".product-single__meta").append($('<input/>').attr({ type: 'button',id:"notifyBtn", name:'btn1', value:"<%=@btn_name %>",class:"shopify-payment-button__button shopify-payment-button__button--unbranded" }));
 }
 
 // When the user clicks on <span> (x), close the modal
@@ -90,9 +91,11 @@ window.onclick = function(event) {
   }
 
 if($('#AddToCart-product-template').text().trim()=="Sold out" && $("#notifyBtn").length==0){
-    $(".product-single__meta").append($('<input/>').attr({ type: 'button',id:"notifyBtn", name:'btn1', value:'NOTIFY ME',style:'background-color: #008CBA;padding: 12px 28px;border-radius: 8px;' }));
- 
-}
+    $(".product-single__meta").append($('<input/>').attr({ type: 'button',id:"notifyBtn", name:'btn1', value:'NOTIFY ME',class:'shopify-payment-button__button shopify-payment-button__button--unbranded' }));
+    }
+    else if($('#AddToCart-product-template').text().trim()=="Add to cart"){
+    $('#notifyBtn').remove();
+    }
 
 }
 
@@ -102,15 +105,18 @@ let account={email:$("#vemail").val(), contact: $("#vphone").val(),variant_id: g
   
   $.ajax({
   type: "POST",
-  url: "https://pwa.serveo.net/myshopapp/saveacc?shop="+location.host,
+  url: "<%=ENV['DOMAIN'] %>/myshopapp/saveacc?shop="+location.host,
   data: {account:account},
   dataType: 'json',
+  //headers: {  'Access-Control-Allow-Origin': '*' },
+  crossDomain: true,
   //contentType: "application/json",
   success: function(data){
   modalView.fadeOut();
      //$("#resultarea").text(data);
+   alert("<%= @notify_msg %>");
   },error: function(data){
-modalView.fadeOut();
+    modalView.fadeOut();
   }
 });
     //modalView[0].style.display = "none";
