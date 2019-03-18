@@ -7,73 +7,7 @@
 <% end %>
 
 
-
-
-  <div class="Polaris-Card"
-
-
-<div style="--top-bar-background:#00848e; --top-bar-color:#f9fafb; --top-bar-background-lighter:#1d9ba4;">
-  <div class="Polaris-Page">
-    <div class="Polaris-Page-Header">
-      <div class="Polaris-Page-Header__TitleAndRollup">
-        <div class="Polaris-Page-Header__Title">
-          <div>
-            <h1 class="Polaris-DisplayText Polaris-DisplayText--sizeLarge"> Notification Requests</h1>
-          </div>
-          <div></div>
-        </div>
-      </div>
-    </div>
-    <div class="Polaris-Page__Content">
-      <div class="Polaris-Card">
-        <div class="">
-         
-          <div class="Polaris-DataTable">
-            <div class="Polaris-DataTable__ScrollContainer" style="margin-left: 0px;">
-              <table class="Polaris-DataTable__Table">
-                <thead>
-                  <tr>
-                    <th data-polaris-header-cell="true" class="Polaris-DataTable__Cell Polaris-DataTable__Cell--header Polaris-DataTable__Cell--numeric" scope="col" style="height: 53px;">S.No</th>
-                    <th data-polaris-header-cell="true" class="Polaris-DataTable__Cell Polaris-DataTable__Cell--header Polaris-DataTable__Cell--numeric" scope="col" style="height: 53px;">Email</th>
-                    <th data-polaris-header-cell="true" class="Polaris-DataTable__Cell Polaris-DataTable__Cell--header Polaris-DataTable__Cell--numeric" scope="col" style="height: 53px;">Contact Number</th>
-                    <th data-polaris-header-cell="true" class="Polaris-DataTable__Cell Polaris-DataTable__Cell--header Polaris-DataTable__Cell--numeric" scope="col" style="height: 53px;">Variant_id</th>
-                    <th data-polaris-header-cell="true" class="Polaris-DataTable__Cell Polaris-DataTable__Cell--header Polaris-DataTable__Cell--numeric" scope="col" style="height: 53px;">Product Name</th>
-                    <th data-polaris-header-cell="true" class="Polaris-DataTable__Cell Polaris-DataTable__Cell--header Polaris-DataTable__Cell--numeric" scope="col" style="height: 53px;">Action</th>
-                  </tr>
-                  
-                </thead>
-                <tbody>
-                 <% @list.each.with_index do |item,index|%>
-                  <tr class="Polaris-DataTable__TableRow">
-                    <td class="Polaris-DataTable__Cell Polaris-DataTable__Cell--numeric" ><%= index+1 %></td>
-                    <td class="Polaris-DataTable__Cell Polaris-DataTable__Cell--numeric" ><%= item.email %></td>
-                    <td class="Polaris-DataTable__Cell Polaris-DataTable__Cell--numeric" style="height: 72px;"><%= item.contact %></td>
-                    <td class="Polaris-DataTable__Cell Polaris-DataTable__Cell--numeric" style="height: 72px;"><%= item.variant_id %></td>
-                    <td class="Polaris-DataTable__Cell Polaris-DataTable__Cell--numeric" style="height: 72px;"><%= item.product %></td>
-                    <td class="Polaris-DataTable__Cell Polaris-DataTable__Cell--numeric" style="height: 72px;">
-                     <div class="Polaris-ButtonGroup">
-                      <div class="Polaris-ButtonGroup__Item">
-                        <%= button_to "Edit", edit_path, :id => "button-1", :class => "Polaris-Button Polaris-Button--primary", :method => :get, params: {id:item.id} %>
-                      </div>
-                      <div class="Polaris-ButtonGroup__Item">
-                      <%= button_to "Delete", edit_path, :id => "button-2",:class => "Polaris-Button Polaris-Button--destructive", :method => :get, params: {id:item.id} %>
-                      </div>
-                     </div>
-                    </td>
-                  </tr>
-                  <% end %>
-                   
-                  
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-  </div>
+<%= react_component 'StockTable',url:"/stock-app/notification/delete", rowData:@list %>
 
 
    

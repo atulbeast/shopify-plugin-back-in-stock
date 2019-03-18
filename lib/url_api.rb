@@ -20,7 +20,7 @@ class UrlApi
     {
   "script_tag": {
     "event": "onload",
-    "src": "#{@shop_name}/apps/myshopapp/js/#{file_name}"
+    "src": "#{@shop_name}/apps/stock-app/js/#{file_name}"
           }
       }   
   end

@@ -9,7 +9,7 @@
 <div class="Polaris-Layout">
 <div class="Polaris-Page Polaris-Card">
       
-<%= form_for @button,:url => :settings_post, :method => :POST do |f| %>
+<%= form_for @button,:url => "https://#{@shop_name}/apps/stock-app/settings_post", :method => :POST do |f| %>
   <% if @button.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@button.errors.count, "error") %> prohibited Notification Settings from being saved:</h2>

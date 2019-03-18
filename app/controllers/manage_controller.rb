@@ -31,6 +31,19 @@ class ManageController < ApplicationController
         redirect_to "/"
       end
 
+
+    def delete_acc
+        
+        account=Account.find(params[:id])
+        msg="successfully deleted"
+          if  account.present?
+            account.destroy
+            msg="record doesn't exist"
+          end
+        shop=Shop.find_by_shopify_domain session[:shopify_domain]
+        render :json => {list: shop.accounts, msg: msg  }
+    end
+
     def update_record
         
         if account_params[:id].present?
