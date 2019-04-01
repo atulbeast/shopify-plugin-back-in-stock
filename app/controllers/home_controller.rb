@@ -35,7 +35,7 @@ class HomeController < ShopifyApp::AuthenticatedController
   def test
 
 
-    render :json => [2,123,421,432]
+    render :json => '2'
   end
 
  
@@ -53,13 +53,13 @@ class HomeController < ShopifyApp::AuthenticatedController
   
 
   def user_requests
-    @shop_name=params[:shop]
-    shop=Shop.find_by_shopify_domain(@shop_name)
+    shop_name=session[:shopify_domain]
+    @shop=Shop.find_by_shopify_domain(shop_name)
     @list=[]
-    if(shop.present?)
-     @list=shop.accounts.select(:id,:product,:variant_id,:email,:contact)
+    if(@shop.present?)
+     @list=@shop.accounts #.select(:id,:product,:variant_id,:email,:contact)
     end
-
+    
   end
 
 private 

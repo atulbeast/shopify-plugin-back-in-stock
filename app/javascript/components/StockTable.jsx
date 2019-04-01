@@ -12,11 +12,24 @@ class StockTable extends React.Component {
       updateModal: false,
       rowList:[],
       title: '',
-      record:{}
+      record:{
+          id: 0,
+          email: "",
+          contact: "",
+          shop_id: 0,
+          variant_id: 0,
+          is_active: false
+        }
     };
     //this.toggleModal=this.toggleModal.bind(this);
   }
-    
+    componentDidMount(){
+      debugger
+      let record={...this.state.record};
+      record.shop_id = this.props.shop_id;  
+                            //updating value
+      this.setState({record});
+    }
     
       sortCurrency = (rows, index, direction) => {
         return [...rows].sort((rowA, rowB) => {
@@ -36,8 +49,7 @@ class StockTable extends React.Component {
         }
         else
         {
-          this.setState(({updateModal}) => ({updateModal: false}));
-          this.setState(({activeModal}) => ({activeModal: false}));
+          this.setState({updateModal:false,activeModal: false});
         }
       }
       inputFormData=(data)=>{
@@ -63,16 +75,20 @@ class StockTable extends React.Component {
       }
 
       saveRecord=(data)=>{
-        debugger
-        // const id  =this.state.record.id;
-        //  fetch(this.props.url + '?id=' + id, {
-        //   method: 'POST'
-        // }).then(response =>
-        //   response.json().then(json => {
-        //     this.toggleModal();
-        //     this.setState({rowList: json.list});
-        //   })
-        // );
+       
+         fetch('/stock-app/update', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({account:data})
+        }).then(response =>
+          response.json().then(json => {
+            this.toggleModal();
+            this.setState({rowList: json.list});
+          })
+        );
       }
           
       handleSort = (rows) => (index, direction) => {
@@ -83,7 +99,7 @@ class StockTable extends React.Component {
        const {activeModal,record,rowList,updateModal,title}=this.state;
        const {rowData}=this.props;
        const rowTable=rowList.length>0?rowList:rowData;
-       
+       debugger
         let rowArray=[];
         (rowTable).forEach(element => {
           element.action=<div><Button onClick={this.inputFormData.bind(this,element)}>Delete</Button><br/><Button onClick={()=>this.editForm(element)}>Edit</Button></div>;
@@ -100,6 +116,7 @@ class StockTable extends React.Component {
               <Card>
                 <Card.Section>
                 <Button primary onClick={()=>this.toggleModal(2)}>Add</Button>
+                <Button primary onClick={()=>this.toggleModal(3)}>Edit</Button>
                 </Card.Section>
                 <Card.Section>
                     <DataTable
@@ -123,8 +140,9 @@ class StockTable extends React.Component {
                     />
                 </Card.Section>
               </Card>
-              <ModalContainer active={activeModal} deleteRecord={this.deleteRecord.bind(this)} toggleModal={()=>this.toggleModal()} record={record} />
-              <SaveContainer active={updateModal} title={title} saveRecord={this.saveRecord.bind(this)} toggleModal={()=>this.toggleModal()} record={record} />
+              {record}
+              <ModalContainer active={activeModal} deleteRecord={this.deleteRecord} toggleModal={()=>this.toggleModal()} record={record} />
+              <SaveContainer active={updateModal} title={title} saveRecord={this.saveRecord} toggleModal={()=>this.toggleModal()} record={record} />
             </Page>
         </AppProvider>
       );

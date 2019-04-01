@@ -7,7 +7,7 @@ class ModalContainer extends React.Component {
   
     render() {
       const {active,record} = this.props;
-  debugger
+  
       return (
         <div style={{height: '500px'}}>
          <Modal
@@ -29,8 +29,8 @@ class ModalContainer extends React.Component {
                   <TextContainer>
                    <p> <label>Email: </label> {record.email} </p>
                    <p> <label>Contact: </label> {record.contact} </p>
-                   <p> <label>Product Name </label>: {record.product} </p>
-                   <p> <label>Variant ID </label>: {record.variant_id} </p>
+                   <p> <label>Product Name: </label> {record.product} </p>
+                   <p> <label>Variant ID: </label> {record.variant_id} </p>
                   </TextContainer>
                 </Stack.Item>
               </Stack>
