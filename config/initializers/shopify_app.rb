@@ -5,7 +5,7 @@ ShopifyApp.configure do |config|
   config.scope = "read_products,read_script_tags, write_script_tags"
   config.embedded_app = true
   config.webhooks=[
-        {topic: 'products/update', address: "#{ENV['DOMAIN']}/webhooks/products_update", format: 'json'},
+        {topic: 'products/update', address: "#{ENV['DOMAIN']}/webhooks/products_update", format:'json'},
         {topic: 'app/uninstalled', address: "#{ENV['DOMAIN']}/webhooks/app_uninstalled", format:'json'}
         ]   
   config.after_authenticate_job = false

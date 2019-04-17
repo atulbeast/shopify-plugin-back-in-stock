@@ -9,7 +9,7 @@
 <div class="Polaris-Layout">
 <div class="Polaris-Page Polaris-Card">
       
-<%= form_for @button,:url => "https://#{@shop_name}/apps/stock-app/settings_post", :method => :POST do |f| %>
+<%= form_for @button,:url => :stock_app_settings_post, :method => :POST do |f| %>
   <% if @button.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@button.errors.count, "error") %> prohibited Notification Settings from being saved:</h2>
@@ -35,10 +35,9 @@
 
               <div class="Polaris-TextContainer" id="form-template">
                 <h2 class="Polaris-Heading">sdff</h2>
-                
               </div>
             </div>
-            <div class="Polaris-Layout__AnnotationContent">
+          <div class="Polaris-Layout__AnnotationContent">
               <div class="Polaris-Card">
                 <div class="Polaris-Card__Section">
                   <div class="Polaris-FormLayout">
@@ -46,7 +45,6 @@
                       <div class="Polaris-FormLayout__Items">
                         
                         <div class="Polaris-FormLayout__Item">
-                            
                             <div class="Polaris-Labelled__LabelWrapper">
                               <div class="Polaris-Label">
                               <label id="TextField2Label" for="TextField2" class="Polaris-Label__Text">Button Name</label>
@@ -57,7 +55,7 @@
                             <%= f.text_field :button_name, :class=>'Polaris-TextField__Input', placeholder: "Notify Button name" %>
                             <div class="Polaris-TextField__Backdrop"></div>
                             </div>
-                         </div>
+                        </div>
                           
                           <div class="Polaris-FormLayout__Item">
                             <div class="Polaris-Labelled__LabelWrapper">
@@ -152,10 +150,10 @@
     });
 
   function mail_template(value,temp_name){
-    txt_container.html($('<h3/>',{text:temp_name,class:'Polaris-Heading'}).append($('<h3/>',{text:'Hi ___'}),$('<br/>'), $('<p/>',{text:value}),$('<p/>',{text:'your product ____ is back in stock.'})))) 
+    txt_container.html($('<h3/>',{text:temp_name,class:'Polaris-Heading'}).append($('<h3/>',{text:'Hi ___'}),$('<br/>'),$('<p/>',{text:'your product ____ is back in stock.'}), $('<p/>',{text:value}) )); 
   }
   function sms_template(value,temp_name){
-    txt_container.html($('<h3/>',{text:temp_name,class:'Polaris-Heading'}).append($('<p/>',{text:value})))
+    txt_container.html($('<h3/>',{text:temp_name,class:'Polaris-Heading'}).append($('<p/>',{text:'Hi ___, your product ____ is back in stock. '+value})))
   }
   //handling mail message
     mail_msg.on('keyup',function(){

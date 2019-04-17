@@ -14,8 +14,9 @@ class SaveContainer extends React.Component {
         email: "",
         contact: "",
         shop_id: 0,
+        product:'',
         variant_id: 0,
-        is_active: false
+        active: false
         }
     }
     updateForm=(value,name)=>{
@@ -64,7 +65,7 @@ class SaveContainer extends React.Component {
                     <TextField label="Contact" name="contact"  value={form.contact} onChange={(e)=>this.updateForm(e,"contact")} />
                     <TextField type="email" label="Account Email" name="email" value={form.email} onChange={(e)=>this.updateForm(e,"email")} />
                     <input type="hidden" name="shop_id" value={form.shop_id} />
-                    <Checkbox checked={form.is_active} label="Active"  onChange={(e)=>this.updateForm(e,"is_active")}/>
+                    <Checkbox checked={form.active} label="Active"  onChange={(e)=>this.updateForm(e,"active")}/>
                   </FormLayout>
                   </TextContainer>
                 </Stack.Item>

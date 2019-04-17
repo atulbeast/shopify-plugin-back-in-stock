@@ -16,19 +16,18 @@ class StockTable extends React.Component {
           id: 0,
           email: "",
           contact: "",
+          product:'',
           shop_id: 0,
           variant_id: 0,
-          is_active: false
+          active: false
         }
     };
     //this.toggleModal=this.toggleModal.bind(this);
   }
     componentDidMount(){
-      debugger
       let record={...this.state.record};
       record.shop_id = this.props.shop_id;  
-                            //updating value
-      this.setState({record});
+      this.setState({record}); //updating value
     }
     
       sortCurrency = (rows, index, direction) => {
@@ -44,7 +43,18 @@ class StockTable extends React.Component {
           this.setState(({activeModal}) => ({activeModal: !activeModal}));
         }
         else if(i==2||i==3){
-          this.setState({title:i==2?'Add':'Update'});
+          let record={...this.state.record};
+          if(i==2)
+          {            
+            record.email='';
+            record.contact='';
+            record.variant_id='';
+            record.id=0;
+            record.product='';
+            this.setState({title:'Add', record:record});
+          }
+          else if(i==3)
+          this.setState({title:'Update'});
           this.setState(({updateModal}) => ({updateModal: !updateModal}));
         }
         else
@@ -75,14 +85,15 @@ class StockTable extends React.Component {
       }
 
       saveRecord=(data)=>{
+      const item={contact: data.contact, email:data.email, active: data.active,product:data.product,variant_id:data.variant_id, shop_id: data.shop_id,id: data.id};
        
-         fetch('/stock-app/update', {
+         fetch(`/stock-app/update?id=${data.id}`, { //+data.id==0?'':`?id=${data.id}`
           method: 'POST',
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({account:data})
+          body: JSON.stringify({account:item})
         }).then(response =>
           response.json().then(json => {
             this.toggleModal();
@@ -99,10 +110,9 @@ class StockTable extends React.Component {
        const {activeModal,record,rowList,updateModal,title}=this.state;
        const {rowData}=this.props;
        const rowTable=rowList.length>0?rowList:rowData;
-       debugger
-        let rowArray=[];
+       let rowArray=[];
         (rowTable).forEach(element => {
-          element.action=<div><Button onClick={this.inputFormData.bind(this,element)}>Delete</Button><br/><Button onClick={()=>this.editForm(element)}>Edit</Button></div>;
+          element.action=<div><Button onClick={this.inputFormData.bind(this,element)}><i class="fa fa-trash" aria-hidden="true"></i></Button><br/><Button onClick={()=>this.editForm(element)}><i class="fa fa-pencil-square-o" aria-hidden="true"></i></Button></div>;
         });
         (rowTable).forEach((element,i) => {
           rowArray.push([i+1,element.product,element.variant_id,element.email,element.contact,element.action]);
@@ -116,7 +126,7 @@ class StockTable extends React.Component {
               <Card>
                 <Card.Section>
                 <Button primary onClick={()=>this.toggleModal(2)}>Add</Button>
-                <Button primary onClick={()=>this.toggleModal(3)}>Edit</Button>
+                {/* <Button primary onClick={()=>this.toggleModal(3)}>Edit</Button> */}
                 </Card.Section>
                 <Card.Section>
                     <DataTable
@@ -140,7 +150,7 @@ class StockTable extends React.Component {
                     />
                 </Card.Section>
               </Card>
-              {record}
+             
               <ModalContainer active={activeModal} deleteRecord={this.deleteRecord} toggleModal={()=>this.toggleModal()} record={record} />
               <SaveContainer active={updateModal} title={title} saveRecord={this.saveRecord} toggleModal={()=>this.toggleModal()} record={record} />
             </Page>

@@ -47,8 +47,9 @@ class ManageController < ApplicationController
     def update_record
         msg=''
         begin
-            if account_params[:id]!=0
-                account_info=Account.find(account_params[:id])
+            
+            if params[:id].to_i!=0
+                account_info=Account.find(params[:id])
                 account_info.update(account_params)
                 msg='successfully updated'
             else
@@ -89,7 +90,7 @@ private
         params.require(:account).permit(:email, :contact,  :variant_id, :product)
     end
     def account_params
-        params.require(:account).permit(:email, :contact,  :variant_id, :product,:shop_id,:id,:active)
+        params.require(:account).permit(:email, :contact,  :variant_id, :product,:shop_id,:active)
       end 
     def initialize_shop
         @shop_name=params[:shop]
