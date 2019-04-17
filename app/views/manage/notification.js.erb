@@ -1,33 +1,13 @@
 
 $(document).ready(function() {
 
-const modalEdtn= {
-  "display": "none", /* Hidden by default */
-  "position": "fixed", /* Stay in place */
-  "z-index": 1, /* Sit on top */
-  "padding-top": "100px", /* Location of the box */
-  "left": 0,
-  "top": 0,
-  "width": "100%", /* Full width */
-  "height": "100%", /* Full height */
-  "overflow": "auto", /* Enable scroll if needed */
-  "background-color": "rgb(0,0,0)", /* Fallback color */
-  "background-color": "rgba(0,0,0,0.4)" /* Black w/ opacity */
-};
 
-const modalContent={
-  "background-color":" #fefefe",
-  margin: "auto",
-  padding: "20px",
-  border: "1px solid #888",
-  width: "30%",
-  "border-radius":"4px"
-};
 
+$('head').append('<style type="text/css">         .cmodal-content{ background-color: #fefefe;margin: auto;padding: 20px;border: 1px solid #888;width: 30%;border-radius:4px;}  .modal-edtn {display: none; /* Hidden by default */ position: fixed; z-index: 1; /* Sit on top */ padding-top: 100px; /* Location of the box */left: 0;top: 0;width: 100%; /* Full width */height: 100%; /* Full height */overflow: auto; /* Enable scroll if needed */background-color: rgb(0,0,0); /* Fallback color */background-color: rgba(0,0,0,0.4) /* Black w/ opacity */}</style>');
 $("#MainContent").append(
 // Creating Form Div and Adding <h2> and <p> Paragraph Tag in it.
-$("<div/>",{id:'md-modal-back'}).append(
-    $("<div/>",{id:'md-modal-content'}).append(
+$("<div/>",{id:'md-modal-back',class:'modal-edtn'}).append(
+    $("<div/>",{id:'md-modal-content',class:'cmodal-content'}).append(
         $("<span/>",{class:'close', style:"cursor: pointer;float: right;font-size: 30px;"}).html("&times;"),
 $("<h3/>").text("<%= @form_title %>"), $("<p/>").text("We will email you when product is in stock"), $("<div/>", {
 //action: '/myshopapp/saveacc',
@@ -41,9 +21,8 @@ type: 'text',
 id: 'vemail',
 name: 'email',
 placeholder: 'Your Email'
-}),$("<br/>"),
-$("<p/>",{text:"OR/BOTH"}),
-$("<br/>"),
+}),
+$("<p/>",{text:"OR/BOTH",style:"margin-top: 28px;"}),
 $("<input/>", {
 type: 'text',
 id: 'vphone',
@@ -61,9 +40,7 @@ let modalView = $('#md-modal-back');
 let modalContainer=$('#md-modal-content');
 
 
-//Adding CSS
-modalView.css(modalEdtn);
-modalContainer.css(modalContent);
+
 
 if($('#AddToCart-product-template').text().trim()=="Sold out"){
     //$("#MainContent").append('<button/>',{id:"notifyBtn",style:'background-color: #008CBA;padding: 12px 28px;border-radius: 8px;'});
@@ -100,12 +77,13 @@ if($('#AddToCart-product-template').text().trim()=="Sold out" && $("#notifyBtn")
 }
 
 $(document).on('click','#notifyME',function() {
-
-let account={email:$("#vemail").val(), contact: $("#vphone").val(),variant_id: getUrlParameter("variant"),product: location.pathname.substring(10) };
+const variantObj=getUrlParameter("variant");
+debugger
+let account={email:$("#vemail").val(), contact: $("#vphone").val(),variant_id: typeof(variantObj)=='undefined'? meta["product"]["variants"][0].id : variantObj,product: location.pathname.substring(10) };
   
   $.ajax({
   type: "POST",
-  url: "<%=ENV['DOMAIN'] %>/myshopapp/saveacc?shop="+location.host,
+  url: "<%=ENV['DOMAIN'] %>/stock-app/saveacc?shop="+location.host,
   data: {account:account},
   dataType: 'json',
   //headers: {  'Access-Control-Allow-Origin': '*' },

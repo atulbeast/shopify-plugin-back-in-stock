@@ -6,8 +6,7 @@ class ManageController < ApplicationController
         if params[:shop].present?
             shop=Shop.find_by_shopify_domain(params[:shop])
             acc=Account.new(acc_params)  
-            
-             if shop.present?
+            if shop.present?
                 acc.shop_id=shop.id
                 acc.save
                 render json: {}, status: 200
@@ -16,6 +15,7 @@ class ManageController < ApplicationController
             render json: {}, status: 401
         end
     end
+    
     def settings_post
         if button_params[:shop_id].present?
            shop_obj= Shop.find_by_id(button_params[:shop_id])
@@ -31,13 +31,37 @@ class ManageController < ApplicationController
         redirect_to "/"
       end
 
-    def update_record
+
+    def delete_acc
         
-        if account_params[:id].present?
-          account_info=Account.find(account_params[:id])
-          account_info.update(account_params)
+        account=Account.find(params[:id])
+        msg="successfully deleted"
+          if  account.present?
+            account.destroy
+            msg="record doesn't exist"
+          end
+        shop=Shop.find_by_shopify_domain session[:shopify_domain]
+        render :json => {list: shop.accounts, msg: msg  }
+    end
+
+    def update_record
+        msg=''
+        begin
+            
+            if params[:id].to_i!=0
+                account_info=Account.find(params[:id])
+                account_info.update(account_params)
+                msg='successfully updated'
+            else
+                account_info= Account.new(account_params)
+                account_info.save
+                msg='successfully added'
+            end
+        rescue StandardError => e
+            msg= e
         end
-        redirect_to user_requests_url
+        acc_list= Account.where(shop_id:account_params[:shop_id])
+        render :json => {list: acc_list, msg: msg  }
     end
 
     def notification
@@ -66,7 +90,7 @@ private
         params.require(:account).permit(:email, :contact,  :variant_id, :product)
     end
     def account_params
-        params.require(:account).permit(:email, :contact,  :variant_id, :product,:shop_id,:id,:active)
+        params.require(:account).permit(:email, :contact,  :variant_id, :product,:shop_id,:active)
       end 
     def initialize_shop
         @shop_name=params[:shop]

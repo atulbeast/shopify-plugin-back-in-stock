@@ -44,8 +44,8 @@ NEW! Text marketing lists. Build a texting list for your VIP customers. We handl
         <div class="Polaris-Stack__Item">
           <div class="Polaris-ButtonGroup">
             <div class="Polaris-ButtonGroup__Item Polaris-ButtonGroup__Item--plain">
-            <%= button_to "Manage Setting", myshopapp_pagesetup_path, :class => "Polaris-Button Polaris-Button--sizeLarge", :method => :get, :params=>{s_domain:@shop_name} %>
-            <%= button_to "Show All Requests", user_requests_path, :class => "Polaris-Button Polaris-Button--sizeLarge", :method => :get, :params=>{s_domain:@shop_name} %>
+            <%= button_to "Manage Setting", "/stock-app/pagesetup", :class => "Polaris-Button Polaris-Button--sizeLarge", :method => :get, :params=>{s_domain:@shop_name} %>
+            <%= button_to "Show All Requests", "/stock-app/user/requests", :class => "Polaris-Button Polaris-Button--sizeLarge", :method => :get, :params=>{s_domain:@shop_name} %>
             </div>
           </div>
         </div>

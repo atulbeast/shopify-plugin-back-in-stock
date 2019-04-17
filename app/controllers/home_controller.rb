@@ -19,8 +19,8 @@ class HomeController < ShopifyApp::AuthenticatedController
 
 
   def settings
-    shop_name=params[:s_domain]
-    shop_obj=Shop.find_by_shopify_domain(shop_name) 
+    @shop_name=params[:s_domain]
+    shop_obj=Shop.find_by_shopify_domain(@shop_name) 
     if shop_obj.present?
       if shop_obj.button.present?
          @button= shop_obj.button
@@ -30,6 +30,12 @@ class HomeController < ShopifyApp::AuthenticatedController
       end
     end
     
+  end
+
+  def test
+
+
+    render :json => '2'
   end
 
  
@@ -46,14 +52,14 @@ class HomeController < ShopifyApp::AuthenticatedController
 
   
 
-  def  user_requests
-    shop_name=session[:s_domain]
-    shop=Shop.find_by_shopify_domain(shop_name)
+  def user_requests
+    shop_name=session[:shopify_domain]
+    @shop=Shop.find_by_shopify_domain(shop_name)
     @list=[]
-    if(shop.present?)
-     @list=shop.accounts 
+    if(@shop.present?)
+     @list=@shop.accounts #.select(:id,:product,:variant_id,:email,:contact)
     end
-
+    
   end
 
 private 
